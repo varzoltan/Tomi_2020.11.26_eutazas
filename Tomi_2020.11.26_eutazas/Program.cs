@@ -23,7 +23,7 @@ namespace Tomi_2020._11._26_eutazas
             Adat[] adatok = new Adat[2000];
             StreamReader olvas = new StreamReader(@"C:\Users\Rendszergazda\Downloads\utasadat.txt");
             int n = 0;
-            while(!olvas.EndOfStream)
+            while (!olvas.EndOfStream)
             {
                 string sor = olvas.ReadLine();
                 string[] db = sor.Split();
@@ -49,7 +49,7 @@ namespace Tomi_2020._11._26_eutazas
                 {
                     kettes++;
                 }
-                else if (adatok[i].datumervenyesseg>11 && adatok[i].datumervenyesseg < adatok[i].datum)
+                else if (adatok[i].datumervenyesseg > 11 && adatok[i].datumervenyesseg < adatok[i].datum)
                 {
                     kettes++;
                 }
@@ -58,17 +58,17 @@ namespace Tomi_2020._11._26_eutazas
             int legtobb = 0;
             int megall = 0;
             int u = 0;
-            for (int i =0;i<n-1;i++)
+            for (int i = 0; i < n - 1; i++)
             {
-                
-                if (adatok[i].megallo == adatok[i+1].megallo)
+
+                if (adatok[i].megallo == adatok[i + 1].megallo)
                 {
                     u++;
                 }
                 else
                 {
                     u++;
-                    if (legtobb<u)
+                    if (legtobb < u)
                     {
                         legtobb = u;
                         megall = adatok[i].megallo;
@@ -77,7 +77,57 @@ namespace Tomi_2020._11._26_eutazas
                 }
             }
             Console.WriteLine($"4.Feladat\nA legtöbb utas ({legtobb} fő) a {megall}.megállóban probált felszállni.");
+
+            //5.feladat
+            int z = 0;
+            int t = 0;
+            for (int i = 0; i < n; i++)
+            {
+                if (adatok[i].datumervenyesseg >= adatok[i].datum)
+                {
+                    if (adatok[i].tipus == "TAB" || adatok[i].tipus == "NYB")
+                    {
+                        z++;
+                    }
+                    if (adatok[i].tipus == "NYP" || adatok[i].tipus == "RVS" || adatok[i].tipus == "GYK")
+                    {
+                        t++;
+                    }
+                }
+            }
+            Console.WriteLine($"5.Feladat:\nIngyenesen utazók száma: {t}\n Kedvezményesen utazók száma: {z} ");
+
+            //7.feladat
+            for (int i =0; i<n;i++)
+            {
+                if (adatok[i].datumervenyesseg>11)
+                {
+                    int ev2 = int.Parse(adatok[i].datumervenyesseg.ToString().Substring(0, 4));
+                    int ev1 = int.Parse(adatok[i].datum.ToString().Substring(0, 4));
+                    int ho2 = int.Parse(adatok[i].datumervenyesseg.ToString().Substring(4, 2));
+                    int ho1 = int.Parse(adatok[i].datum.ToString().Substring(4, 2));
+                    int nap2 = int.Parse(adatok[i].datumervenyesseg.ToString().Substring(6, 2));
+                    int nap1 = int.Parse(adatok[i].datum.ToString().Substring(6, 2));
+                    if (napokszama(ev1, ho1, nap1, ev2, ho2, nap2) <= 3)
+                    {
+                        Console.WriteLine($"{adatok[i].azonosito} {ev2} {ho2} {nap2}");
+                    }
+                }
+            }
+
             Console.ReadKey();
+        }
+
+        //6.feladat: függvény
+        static int napokszama(int e1, int h1, int n1, int e2, int h2, int n2)
+        {
+            h1 = (h1 + 9) % 12;
+            e1 = e1 - h1 / 10;
+            int d1 = 365 * e1 + e1 / 4 - e1 / 100 + e1 / 400 + (h1 * 306 + 5) / 10 + n1 - 1;
+            h2 = (h2 + 9) % 12;
+            e2 = e2 - h2 / 10;
+            int d2 = 365 * e2 + e2 / 4 - e2 / 100 + e2 / 400 + (h2 * 306 + 5) / 10 + n2 - 1;
+            return (d2 - d1);
         }
     }
 }
