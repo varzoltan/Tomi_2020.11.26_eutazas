@@ -98,9 +98,10 @@ namespace Tomi_2020._11._26_eutazas
             Console.WriteLine($"5.Feladat:\nIngyenesen utazók száma: {t}\n Kedvezményesen utazók száma: {z} ");
 
             //7.feladat
+            StreamWriter ir = new StreamWriter(@"C:\Users\Rendszergazda\Downloads\figyelmeztetes.txt");
             for (int i =0; i<n;i++)
             {
-                if (adatok[i].datumervenyesseg>11)
+                if (adatok[i].datumervenyesseg>10)
                 {
                     int ev2 = int.Parse(adatok[i].datumervenyesseg.ToString().Substring(0, 4));
                     int ev1 = int.Parse(adatok[i].datum.ToString().Substring(0, 4));
@@ -110,11 +111,11 @@ namespace Tomi_2020._11._26_eutazas
                     int nap1 = int.Parse(adatok[i].datum.ToString().Substring(6, 2));
                     if (napokszama(ev1, ho1, nap1, ev2, ho2, nap2) <= 3)
                     {
-                        Console.WriteLine($"{adatok[i].azonosito} {ev2} {ho2} {nap2}");
+                        ir.WriteLine($"{adatok[i].azonosito} {ev2}-{ho2.ToString("00")}-{nap2.ToString("00")}");
                     }
                 }
             }
-
+            ir.Close();
             Console.ReadKey();
         }
 
